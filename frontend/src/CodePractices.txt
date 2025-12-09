@@ -1,0 +1,20 @@
+Code Practices
+
+
+Folder Structure
+
+components/
+├── Button/
+│   ├── Button.tsx
+│   └── Button.module.css 
+├── Card/
+│   ├── Card.tsx
+│   └── Card.module.css
+
+1. Stor bokstav på alle tsx/css files og component folders
+
+
+CSS
+1. camelCase navning på css objecter. isteden for "num-test" blir det "numTest"
+2. Bruke css moduler inne i samme folder som den blir brukt.
+3. bruke "s" som default navn på import av css i samme folder.

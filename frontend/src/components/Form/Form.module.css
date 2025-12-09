@@ -1,0 +1,25 @@
+.formParent{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.form{
+    width: 100%;
+    max-width: 600px;
+    padding: 30px;
+    background-color: white;
+
+    color: black;
+}
+
+
+.textField{
+    width: 100%;
+}
+
+.formControl {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
