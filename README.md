@@ -13,6 +13,7 @@ En lærer ansvarlig for et kurs skal ha mulight til å føre fravær og tilstede
   You need a working Supabase project. Just head over to
   <a href="https://supabase.com/">https://supabase.com/</a> and start your project for free.
 </p>
+<p>This project uses Supabase Auth to authorize users and restrict endpoints.<p>
 <p>You need 2 .env files to run this — one in the frontend root folder and one in the backend root folder:</p>
 
 <h3>root folder /backend/.env</h3>
