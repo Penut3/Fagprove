@@ -1,5 +1,8 @@
 ﻿
+using Application.Interfaces.Services;
+using Application.Services;
 using Microsoft.Extensions.DependencyInjection;
+
 
 namespace Application
 {
@@ -9,6 +12,8 @@ namespace Application
         {
             AddServices(services);
             //services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IRoleService, RoleService>();
             return services;
         }
 

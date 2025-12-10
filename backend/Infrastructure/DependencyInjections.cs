@@ -1,5 +1,8 @@
 ﻿
 using Application.Interfaces.Repositories;
+using Application.Interfaces.Services;
+using Application.Services;
+using Infrastructure.Authentication;
 //using Application.Interfaces.Services;
 //using Application.Services;
 //using Domain.Helpers;
@@ -45,10 +48,9 @@ namespace Infrastructure
 
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
-            
-            //services.AddScoped<ISupabaseAuthService, SupabaseAuthService>();
-           
-           
+
+            services.AddScoped<ISupabaseService, SupabaseService>();
+
             //services.AddScoped<IJwtService, JwtService>();
 
             return services;
