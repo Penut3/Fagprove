@@ -11,5 +11,6 @@ namespace Application.Interfaces.Services
     public interface ISupabaseService
     {
         Task<SupabaseUserDto> CreateAuthUserAsync(SupabaseCreateUserDto userDto);
+        Task<SupabaseLoginResponse> SupabaseLoginAsync(string email, string password);
     }
 }

@@ -1,12 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home/Home';
-import About from './pages/About/About';
 import Navbar from './components/Navbar/Navbar';
 
 import type { FooterSection, FooterLink } from './components/Footer/Footer.types';
 import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa';
 import Footer from './components/Footer/Footer';
 import Example from './pages/Example/Example';
+import Login from './pages/Login/Login'
+import Kontoransatt from './pages/Kontoransatt/Kontoransatt'
+import Laerer from './pages/Lærer/Laerer'
 
 const sections: FooterSection[] = [
   {
@@ -60,33 +61,25 @@ function App() {
     <>
       <div className="viewport">
         <Router>
-          <Navbar />
+          {/* <Navbar /> */}
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
+           
             <Route path="/Example" element={<Example />} />
-
+            <Route path="/" element={<Login />} />
+            <Route path="/kontoransatt" element={<Kontoransatt />} />
+            <Route path="/Laerer" element={<Laerer />} />
           </Routes>
         </Router>
       </div>
       
-      <Footer
-        // logo={<img src="/logo.svg" alt="Company Logo" className="h-10 w-auto" />}
-        // companyName="Acme Corporation"
-        // badge={{ text: "Trusted by 1000+ companies", variant: "secondary" }}
-        // description="We're building the next generation of business tools to help companies scale efficiently and effectively."
-        // companyInfo={{
-        //   address: "123 Business St, Suite 100\nSan Francisco, CA 94105",
-        //   phone: "+1 (555) 123-4567",
-        //   email: "hello@acme.com",
-        // }}
-        // featuredLinks={featuredLinks}
+      {/* <Footer
+
         sections={sections}
         socialLinks={socialLinks}
         bottomText="© 2024 Acme Corporation. All rights reserved."
         bottomLinks={bottomLinks}
         style={{ background: "#18181b", color: "#fff" }}
-      />
+      /> */}
     </>
   );
 }

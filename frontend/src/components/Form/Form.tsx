@@ -19,7 +19,7 @@ import {
 export interface FieldConfig {
   name: string;
   label: string;
-  type: 'text' | 'number' | 'radio' | 'title' | 'select'; // added 'title' type
+  type: 'text' | 'number' | 'radio' | 'title' | 'select' | 'password'; // added 'title' type
   required?: boolean;
   options?: string[]; // only for radio
 }
@@ -56,6 +56,7 @@ const Form: React.FC<FormProps> = ({ fields, onSubmit }) => {
                     {field.label}
                   </h1>
                 );
+              case 'password':
               case 'text':
               case 'number':
                 return (

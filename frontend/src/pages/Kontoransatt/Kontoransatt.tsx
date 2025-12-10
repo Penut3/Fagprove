@@ -1,12 +1,11 @@
-import './Home.module.css'
 
 
 
-function Home() {
+function Kontoransatt() {
   return(
     <section>
       <div className='contentWidth'>
-         <h1>This is homepage</h1>
+         <h1>This is Kontoransatt page</h1>
         
 
       </div>
@@ -18,4 +17,4 @@ function Home() {
 
 
 
-export default Home;
+export default Kontoransatt;

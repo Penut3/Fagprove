@@ -71,5 +71,37 @@ namespace Infrastructure.Authentication
             return user;
         }
 
+
+        public async Task<SupabaseLoginResponse> SupabaseLoginAsync(string email, string password)
+        {
+            var payload = new { email, password };
+
+            var request = new HttpRequestMessage(
+                HttpMethod.Post,
+                $"{_supabaseUrl}/auth/v1/token?grant_type=password"
+            );
+
+            // Use publishable/anon key for token endpoints
+            request.Headers.Add("apikey", _supabaseAnon);
+
+            request.Content = new StringContent(
+                JsonSerializer.Serialize(payload),
+                Encoding.UTF8,
+                "application/json"
+            );
+
+            var response = await _httpClient.SendAsync(request);
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new HttpRequestException($"Supabase login failed: {response.StatusCode} - {errorContent}");
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<SupabaseLoginResponse>(
+                json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+            )!;
+        }
+
     }
 }

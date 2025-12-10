@@ -26,13 +26,24 @@ builder.Services.AddApplication();
 //builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 
 // Add authentication & authorization
-//builder.Services.AddUserValidation();
+builder.Services.AddUserValidation();
 
-//builder.Services.AddAuthorization(options =>
-//{
-//    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
-//    options.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
-//});
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Lærer", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireRole("7f0517e2-432d-4fb3-ba35-c2dfc8127db9");
+    });
+
+    options.AddPolicy("Kontoransatt", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireRole("ca3abc9c-fa6a-49d0-973b-d22bf185b84e");
+
+    });
+
+});
 
 // Add controllers & JSON options
 builder.Services.AddControllers()
@@ -81,7 +92,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("Frontend", policy =>
         policy.WithOrigins(
                 "http://localhost:3000",
-                "http://localhost:3001"
+                "http://localhost:5173"
             )
             .AllowAnyHeader()
             .AllowAnyMethod()

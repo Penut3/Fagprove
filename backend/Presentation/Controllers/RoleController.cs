@@ -23,6 +23,7 @@ namespace Presentation.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "Kontoransatt")]
         public async Task<IActionResult> GetRoles()
         {
             var roles = await _roleService.GetAllRoles();

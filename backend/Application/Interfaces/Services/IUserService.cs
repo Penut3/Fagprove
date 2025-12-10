@@ -11,5 +11,6 @@ namespace Application.Interfaces.Services
     public interface IUserService
     {
         Task<User?> CreateUserAsync(UserCreateDto userDto);
+        Task<UserLoginResultDto> LoginAsync(UserLoginDto loginDto);
     }
 }

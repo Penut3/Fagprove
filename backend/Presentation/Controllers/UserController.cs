@@ -36,40 +36,40 @@ namespace Presentation.Controllers
         }
 
 
-        //[HttpPost("login")]
-        //[AllowAnonymous]
-        //public async Task<ActionResult<object>> Login([FromBody] UserLoginDto userLoginDto)
-        //{
-        //    if (userLoginDto is null) return BadRequest("Invalid request");
+        [HttpPost("login")]
+        [AllowAnonymous]
+        public async Task<ActionResult<object>> Login([FromBody] UserLoginDto userLoginDto)
+        {
+            if (userLoginDto is null)
+                return BadRequest("Invalid request");
 
-        //    var login = await _userService.LoginAsync(userLoginDto);
-        //    if (login is null) return Unauthorized("Invalid email or password");
+            var login = await _userService.LoginAsync(userLoginDto);
+            if (login is null)
+                return Unauthorized("Invalid email or password");
 
-        //    if (userLoginDto.RememberMe)
-        //    {
-        //        // Set ONLY the refresh cookie (HttpOnly). Omit Domain => host-only to SSO.
-        //        var refreshCookie = new CookieOptions
-        //        {
-        //            HttpOnly = true,
-        //            Secure = true,
-        //            SameSite = SameSiteMode.None, // cross-site fetch from SPA
-        //            Path = "/",
-        //            Expires = DateTimeOffset.UtcNow.AddDays(30)
-        //            // Domain = null  // host-only; keep it that way
-        //        };
+            // ------------ COOKIE SETTINGS ------------
+            var accessCookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Path = "/",
+                Expires = DateTimeOffset.UtcNow.AddMinutes(60)
+            };
 
-        //        Response.Cookies.Append("RefreshToken", login.RefreshToken, refreshCookie);
-        //    }
+            // ------------ SET BOTH COOKIES ------------
+            Response.Cookies.Append("AccessToken", login.SupabaseToken, accessCookieOptions);
 
-        //    // Return the ACCESS token in JSON so the SPA can hold it in memory.
-        //    // IMPORTANT: this must be the RAW JWT (xxxxx.yyyyy.zzzzz), not the sb-... base64 blob.
-        //    return Ok(new
-        //    {
-        //        access_token = login.SupabaseToken,
-        //        expires_in = login.ExpiresIn,
-        //        user = new { id = login.Id, email = login.Email, supabaseId = login.SupabaseId }
-        //    });
-        //}
+            // ------------ OPTIONAL JSON RESPONSE ------------
+            // You may still return user info (but NOT tokens)
+            return Ok(new
+            {
+                supabase_id = login.SupabaseId,
+                expires_in = login.ExpiresIn,
+                role_name = login.RoleName
+            });
+        }
+
 
     }
 }
