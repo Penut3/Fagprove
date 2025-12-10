@@ -21,5 +21,14 @@ public class DataContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
+
+        //Seeding Roles
+        var roleOffice = new Guid("90123456-7890-1234-5678-901234567890");
+        var roleTeacher = new Guid("78901234-5678-9012-3456-789012345678");
+
+        modelBuilder.Entity<Role>().HasData(
+            new Role { Id = roleOffice, Name = "Kontoransatt", CreatedAt = DateTime.UtcNow },
+            new Role { Id = roleTeacher, Name = "Lærer", CreatedAt = DateTime.UtcNow }
+        );
     }
 }

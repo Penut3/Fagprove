@@ -33,13 +33,13 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Lærer", policy =>
     {
         policy.RequireAuthenticatedUser();
-        policy.RequireRole("7f0517e2-432d-4fb3-ba35-c2dfc8127db9");
+        policy.RequireRole("78901234-5678-9012-3456-789012345678");
     });
 
     options.AddPolicy("Kontoransatt", policy =>
     {
         policy.RequireAuthenticatedUser();
-        policy.RequireRole("ca3abc9c-fa6a-49d0-973b-d22bf185b84e");
+        policy.RequireRole("90123456-7890-1234-5678-901234567890");
 
     });
 

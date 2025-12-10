@@ -24,10 +24,10 @@ const navigate = useNavigate();
       throw new Error(data.message || 'Login failed');
     }
 
-    if(data.role_name == "kontoransatt"){
+    if(data.role_name == "Kontoransatt"){
         navigate("/kontoransatt")
     }
-     else if(data.role_name == "lærer"){
+     else if(data.role_name == "Lærer"){
         navigate("/laerer")
     }
   };

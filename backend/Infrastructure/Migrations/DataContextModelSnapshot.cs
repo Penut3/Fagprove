@@ -179,6 +179,22 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("90123456-7890-1234-5678-901234567890"),
+                            CreatedAt = new DateTime(2025, 12, 10, 14, 11, 4, 834, DateTimeKind.Utc).AddTicks(7636),
+                            IsDeleted = false,
+                            Name = "Kontoransatt"
+                        },
+                        new
+                        {
+                            Id = new Guid("78901234-5678-9012-3456-789012345678"),
+                            CreatedAt = new DateTime(2025, 12, 10, 14, 11, 4, 834, DateTimeKind.Utc).AddTicks(7639),
+                            IsDeleted = false,
+                            Name = "Lærer"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.User", b =>
