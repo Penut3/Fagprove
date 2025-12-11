@@ -39,7 +39,7 @@ namespace Infrastructure.Authentication
                 email_confirm = true,
                 app_metadata = new
                 {
-                    dbUserId = userDto.UserId,
+                    dbUserId = userDto.UserId.ToString(),
                     roles = userDto.RoleId,
                 }
             };
@@ -102,6 +102,66 @@ namespace Infrastructure.Authentication
                 json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
             )!;
         }
+
+
+        public async Task UpdateSupabaseUser(SupabaseUpdateUserDto userDto)
+        {
+            // Root payload
+            var payload = new Dictionary<string, object>();
+
+            // Optional: email
+            if (!string.IsNullOrWhiteSpace(userDto.Email))
+            {
+                payload["email"] = userDto.Email;
+            }
+
+            // Optional: app_metadata (dbUserId, roles)
+            var appMetadata = new Dictionary<string, object>();
+
+            if (userDto.UserId.HasValue && userDto.UserId.Value != Guid.Empty)
+            {
+                appMetadata["dbUserId"] = userDto.UserId.Value.ToString();
+            }
+
+            if (userDto.RoleId.HasValue && userDto.RoleId.Value != Guid.Empty)
+            {
+                appMetadata["roles"] = userDto.RoleId.Value.ToString();
+            }
+
+            if (appMetadata.Count > 0)
+            {
+                payload["app_metadata"] = appMetadata;
+            }
+
+            // If nothing to update, just return
+            if (payload.Count == 0)
+            {
+                return;
+            }
+
+            var request = new HttpRequestMessage(
+                HttpMethod.Put,
+                $"{_supabaseUrl}/auth/v1/admin/users/{userDto.SupabaseId}"
+            );
+
+            request.Headers.Add("apikey", _supabaseKey);
+            request.Headers.Add("Authorization", $"Bearer {_supabaseKey}");
+            request.Content = new StringContent(
+                JsonSerializer.Serialize(payload),
+                Encoding.UTF8,
+                "application/json"
+            );
+
+            var response = await _httpClient.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorBody = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Supabase user update failed: {response.StatusCode} - {errorBody}");
+            }
+        }
+
+
 
     }
 }

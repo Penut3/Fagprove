@@ -1,0 +1,58 @@
+﻿using Application.Interfaces.Repositories;
+using Application.Interfaces.Services;
+using Domain.Entities;
+using Microsoft.Extensions.Logging.Console;
+using Application.DTOs.CourseDto;
+using Microsoft.EntityFrameworkCore;
+
+namespace Application.Services
+{
+    public class CourseService : ICourseService
+    {
+        private readonly IBaseRepository<Course> _courseRepo;
+        private readonly IBaseRepository<CourseHours> _courseHoursRepo;
+
+        public CourseService(IBaseRepository<Course> courseRepo, IBaseRepository<CourseHours> courseHoursRepo)
+        {
+            _courseRepo = courseRepo;
+            _courseHoursRepo = courseHoursRepo;
+        }
+
+        public async Task<Course> CreateCourseAsync(CourseCreateDto courseDto)
+        {
+            var course = new Course
+            {
+                Id = Guid.NewGuid(),
+                Name = courseDto.Name,
+                UserId = courseDto.UserId,
+            };
+
+            await _courseRepo.Add(course);
+            await _courseRepo.SaveChanges();
+
+            foreach (var date in courseDto.CourseHourDates)
+            {
+                var courseHour = new CourseHours
+                {
+                    Id = Guid.NewGuid(),
+                    CourseId = course.Id,
+                    StartTime = date,
+                    DurationInMinutes = 180, // Assuming each course hour is 3 hours long
+                };
+                await _courseHoursRepo.Add(courseHour);
+            }
+
+            return course;
+        }
+
+        //get my courses
+        public async Task<IEnumerable<Course>> GetCoursesByUserIdAsync(Guid userId)
+        {
+            var courses = await _courseRepo
+                .GetQueryable()
+                .Where(c => c.UserId == userId)
+                .ToListAsync();
+            return courses;
+        }
+    }
+}

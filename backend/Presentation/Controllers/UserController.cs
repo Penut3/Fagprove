@@ -57,11 +57,10 @@ namespace Presentation.Controllers
                 Expires = DateTimeOffset.UtcNow.AddMinutes(60)
             };
 
-            // ------------ SET BOTH COOKIES ------------
+            // Can add refresh token cookie here if needed
             Response.Cookies.Append("AccessToken", login.SupabaseToken, accessCookieOptions);
 
-            // ------------ OPTIONAL JSON RESPONSE ------------
-            // You may still return user info (but NOT tokens)
+
             return Ok(new
             {
                 supabase_id = login.SupabaseId,
@@ -70,6 +69,18 @@ namespace Presentation.Controllers
             });
         }
 
+        [HttpPut("EditUser")]
+        public async Task<IActionResult> EditUser([FromBody] UserEditDto userEditDto)
+        {
+            if (userEditDto == null)
+                return BadRequest("Invalid user data");
+
+            var user = await _userService.EditUserAsync(userEditDto);
+            if (user == null)
+                return NotFound("User not found");
+
+            return Ok(user);
+        }
 
     }
 }

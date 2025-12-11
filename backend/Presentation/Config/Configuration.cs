@@ -80,34 +80,54 @@ public sealed class SupabaseClaimsTransformation : IClaimsTransformation
 {
     public Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
     {
+        if (principal.Identity is not ClaimsIdentity id)
+            return Task.FromResult(principal);
 
-        if (principal.Identity is not ClaimsIdentity id) return Task.FromResult(principal);
-
-        // Parse app_metadata JSON once
+        // app_metadata is a single JSON claim from Supabase
         var metaJson = id.FindFirst("app_metadata")?.Value;
-        if (string.IsNullOrWhiteSpace(metaJson)) return Task.FromResult(principal);
+        if (string.IsNullOrWhiteSpace(metaJson))
+            return Task.FromResult(principal);
 
         try
         {
             using var doc = JsonDocument.Parse(metaJson);
             var root = doc.RootElement;
 
-            // roles → ClaimTypes.Role (string only)
-            if (!id.Claims.Any(c => c.Type == ClaimTypes.Role) &&
-                root.TryGetProperty("roles", out var rolesProp) &&
+            // roles → ClaimTypes.Role
+            if (root.TryGetProperty("roles", out var rolesProp) &&
                 rolesProp.ValueKind == JsonValueKind.String)
             {
                 var role = rolesProp.GetString();
-                if (!string.IsNullOrWhiteSpace(role))
+                if (!string.IsNullOrWhiteSpace(role) &&
+                    !id.HasClaim(ClaimTypes.Role, role))
+                {
                     id.AddClaim(new Claim(ClaimTypes.Role, role));
+                }
+            }
+
+            // dbUserId → "dbUserId" claim (and optionally NameIdentifier)
+            if (root.TryGetProperty("dbUserId", out var dbUserIdProp) &&
+                dbUserIdProp.ValueKind == JsonValueKind.String)
+            {
+                var dbUserId = dbUserIdProp.GetString();
+
+                if (!string.IsNullOrWhiteSpace(dbUserId))
+                {
+                    // Custom claim you read in the controller
+                    if (!id.HasClaim("dbUserId", dbUserId))
+                        id.AddClaim(new Claim("dbUserId", dbUserId));
+
+                    // OPTIONAL: also expose it as NameIdentifier if you like
+                    if (!id.HasClaim(ClaimTypes.NameIdentifier, dbUserId))
+                        id.AddClaim(new Claim(ClaimTypes.NameIdentifier, dbUserId));
+                }
             }
         }
         catch
         {
-            // ignore JSON errors
+            // ignore JSON errors, don't break auth
         }
 
         return Task.FromResult(principal);
-
     }
 }

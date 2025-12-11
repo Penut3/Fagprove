@@ -8,6 +8,7 @@ namespace Domain.Entities
 {
     public class CourseHours : BaseEntity
     {
+        public string? Name { get; set; }
         public Guid CourseId { get; set; }
         public Course Course { get; set; } = null!;
         public DateTime StartTime { get; set; }

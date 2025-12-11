@@ -36,7 +36,7 @@ namespace Application.Services
                 throw new Exception("Role does not exist.");
             }
 
-            var dbUserName = new Guid();
+            var dbUserName = Guid.NewGuid();
             var supabaseUser = await _supabaseService.CreateAuthUserAsync(new SupabaseCreateUserDto
             {
                 Email = userDto.Email,
@@ -90,6 +90,31 @@ namespace Application.Services
             };
         }
 
+        public async Task<User?> EditUserAsync(UserEditDto userEditDto)
+        {
+            var user = await _userRepo.GetById(userEditDto.Id);
+            if (user == null) return null;
+
+            // Update ONLY if values were provided
+            if (!string.IsNullOrWhiteSpace(userEditDto.Email))
+                user.Email = userEditDto.Email;
+
+            if (userEditDto.RoleId.HasValue && userEditDto.RoleId.Value != Guid.Empty)
+                user.RoleId = userEditDto.RoleId.Value;
+
+            await _userRepo.Update(user);
+
+            // Update user in Supabase (only the same provided fields)
+            await _supabaseService.UpdateSupabaseUser(new SupabaseUpdateUserDto
+            {
+                SupabaseId = user.SupabaseId,
+                UserId = userEditDto.Id,                  // unchanged, required
+                Email = userEditDto.Email,                // nullable → only included if has value
+                RoleId = userEditDto.RoleId               // nullable → only included if has value
+            });
+
+            return user;
+        }
 
 
     }

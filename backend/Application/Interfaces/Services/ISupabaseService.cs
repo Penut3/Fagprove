@@ -12,5 +12,7 @@ namespace Application.Interfaces.Services
     {
         Task<SupabaseUserDto> CreateAuthUserAsync(SupabaseCreateUserDto userDto);
         Task<SupabaseLoginResponse> SupabaseLoginAsync(string email, string password);
+
+        Task UpdateSupabaseUser(SupabaseUpdateUserDto userDto);
     }
 }

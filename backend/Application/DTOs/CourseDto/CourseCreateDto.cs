@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Entities
+namespace Application.DTOs.CourseDto
 {
-    public class Course : BaseEntity
+    public class CourseCreateDto
     {
         public string Name { get; set; } = null!;
         public Guid UserId { get; set; }
-        public User User { get; set; } = null!;
+
+        [Required]
+        public DateTime[] CourseHourDates { get; set; } = null!;
     }
 }

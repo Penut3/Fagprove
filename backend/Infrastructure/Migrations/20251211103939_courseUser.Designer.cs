@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20251211103939_courseUser")]
+    partial class courseUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,9 +97,6 @@ namespace Infrastructure.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("timestamp with time zone");
@@ -184,14 +184,14 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("90123456-7890-1234-5678-901234567890"),
-                            CreatedAt = new DateTime(2025, 12, 11, 12, 58, 4, 720, DateTimeKind.Utc).AddTicks(5167),
+                            CreatedAt = new DateTime(2025, 12, 11, 10, 39, 38, 745, DateTimeKind.Utc).AddTicks(1544),
                             IsDeleted = false,
                             Name = "Kontoransatt"
                         },
                         new
                         {
                             Id = new Guid("78901234-5678-9012-3456-789012345678"),
-                            CreatedAt = new DateTime(2025, 12, 11, 12, 58, 4, 720, DateTimeKind.Utc).AddTicks(5171),
+                            CreatedAt = new DateTime(2025, 12, 11, 10, 39, 38, 745, DateTimeKind.Utc).AddTicks(1548),
                             IsDeleted = false,
                             Name = "Lærer"
                         });
