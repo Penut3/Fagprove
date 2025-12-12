@@ -1,13 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar/Navbar';
+
 
 import type { FooterSection, FooterLink } from './components/Footer/Footer.types';
-import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa';
 import Footer from './components/Footer/Footer';
-import Example from './pages/Example/Example';
 import Login from './pages/Login/Login'
 import Kontoransatt from './pages/Kontoransatt/Kontoransatt'
 import Laerer from './pages/Lærer/Laerer'
+import Registrer from './pages/Kontoransatt/Registrer';
+import LaererLayout from "./layouts/LaererLayout"
+import KontorLayout from "./layouts/KontorLayout"
 
 const sections: FooterSection[] = [
   {
@@ -43,19 +44,6 @@ const bottomLinks: FooterLink[] = [
 
 
 
-const socialLinks: FooterLink[] = [
-  { label: "Facebook", href: "https://facebook.com", icon: <FaFacebook /> },
-  { label: "Twitter", href: "https://twitter.com", icon: <FaTwitter /> },
-  { label: "LinkedIn", href: "https://linkedin.com", icon: <FaLinkedin /> },
-];
-
-// const featuredLinks: FooterLink[] = [
-//   { label: "Get Support", href: "/support", icon: <FaLifeRing /> },
-//   { label: "API Docs", href: "/docs", icon: <FaBook /> },
-//   { label: "Status Page", href: "/status", icon: <FaFileAlt /> },
-//   { label: "Download App", href: "/download", icon: <FaDownload /> },
-// ];
-
 function App() {
   return (
     <>
@@ -64,10 +52,18 @@ function App() {
           {/* <Navbar /> */}
           <Routes>
            
-            <Route path="/Example" element={<Example />} />
+           
             <Route path="/" element={<Login />} />
-            <Route path="/kontoransatt" element={<Kontoransatt />} />
-            <Route path="/Laerer" element={<Laerer />} />
+
+            <Route element={<KontorLayout />}>
+              <Route path="/kontoransatt" element={<Kontoransatt />} />
+              <Route path="/registrer" element={<Registrer />} />
+            </Route>
+
+            <Route element={<LaererLayout />}>
+              <Route path="/laerer" element={<Laerer />} />
+            </Route>
+            
           </Routes>
         </Router>
       </div>
