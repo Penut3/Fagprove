@@ -17,7 +17,7 @@ export function KontorSidebar() {
 
  const items = [
     { title: "Kontor Side", to: "/Kontoransatt" },
-    { title: "Lærere", to: "/laerere" }, // Or use "/kontoransatt" as the default
+    { title: "Alle brukere", to: "/users" }, // Or use "/kontoransatt" as the default
     { title: "Registrer Deltager", to: "/registrer" },
     { title: "Logg ut", to: "/" },
   ]

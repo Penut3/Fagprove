@@ -12,5 +12,6 @@ namespace Application.Interfaces.Services
     {
         Task<Participant> CreateParticipantAsync(ParticipantCreateDto participantDto);
         Task<IEnumerable<Participant>> GetParticipantsByCourseIdAsync(Guid courseId);
+        Task<IEnumerable<Participant>> GetAllParticipantsAsync();
     }
 }

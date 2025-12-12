@@ -11,25 +11,24 @@ import {
 
 const ApiUrl = import.meta.env.VITE_BACKEND_API;
 
-type Participant = {
+type User = {
   id: string;
-  name: string;
-  phoneNumber: string;
+  email: string;
   createdAt: string;
   isDeleted: boolean;
 };
 
 
 
-function Kontoransatt() {
-  const [participants, setParticipants] = useState<Participant[]>([]);
+function AllUsersPage() {
+  const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    getAllParticipants();
+    getAllUsers();
   }, []);
 
-  const getAllParticipants = async () => {
-    const res = await fetch(`${ApiUrl}Participant/All`, {
+  const getAllUsers = async () => {
+    const res = await fetch(`${ApiUrl}Users/All`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -40,41 +39,38 @@ function Kontoransatt() {
       return;
     }
 
-    const data = (await res.json()) as Participant[];
-    setParticipants(data.filter(p => !p.isDeleted)); // optional
+    const data = (await res.json()) as User[];
+    setUsers(data.filter(p => !p.isDeleted)); // optional
   };
 
 
   return (
     <section>
       <div className="contentWidth">
-        <h1>Kontoransatt side</h1>
         <div style={{display:"flex", justifyContent:"center"}}>
-          <h2 style={{color:"grey", fontWeight:"500"}}>Alle deltakere</h2>
+          <h2 style={{color:"grey", fontWeight:"500"}}>Alle Brukere</h2>
         </div>
         <Table>
           
 
           <TableHeader>
             <TableRow>
-              <TableHead>Navn</TableHead>
-              <TableHead>Telefon</TableHead>
+              <TableHead>Email</TableHead>
               <TableHead className="text-right">Opprettet</TableHead>
             </TableRow>
           </TableHeader>
 
           <TableBody>
-            {participants.map((p) => (
+            {users.map((p) => (
               <TableRow key={p.id}>
-                <TableCell>{p.name}</TableCell>
-                <TableCell>{p.phoneNumber}</TableCell>
+                <TableCell>{p.email}</TableCell>
                 <TableCell className="text-right">
                   {new Date(p.createdAt).toLocaleDateString("no-NB")}
                 </TableCell>
               </TableRow>
             ))}
 
-            {participants.length === 0 && (
+            {users.length === 0 && (
               <TableRow>
                 <TableCell colSpan={3} className="text-center">
                   Ingen deltakere funnet
@@ -88,4 +84,4 @@ function Kontoransatt() {
   );
 }
 
-export default Kontoransatt
+export default AllUsersPage

@@ -82,5 +82,14 @@ namespace Presentation.Controllers
             return Ok(user);
         }
 
+
+        [HttpGet("All")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await _userService.GetAllUsersAsync();
+            return Ok(users);
+        }
+
+
     }
 }

@@ -61,5 +61,10 @@ namespace Application.Services
 
             return participants;
         }
+
+        public async Task<IEnumerable<Participant>> GetAllParticipantsAsync()
+        {
+            return await _participantRepo.GetAll();
+        }
     }
 }

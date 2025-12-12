@@ -45,6 +45,11 @@ namespace Application.Services
             return course;
         }
 
+        public async Task<IEnumerable<Course>>  GetAllCoursesAsync()
+        {
+            return await _courseRepo.GetAll();
+        }
+
         //get my courses
         public async Task<IEnumerable<Course>> GetCoursesByUserIdAsync(Guid userId)
         {
@@ -53,6 +58,16 @@ namespace Application.Services
                 .Where(c => c.UserId == userId)
                 .ToListAsync();
             return courses;
+        }
+
+
+        public async Task<IEnumerable<CourseHours>> GetCourseHoursByCourseIdAsync(Guid courseId)
+        {
+            var courseHours = await _courseHoursRepo
+                .GetQueryable()
+                .Where(ch => ch.CourseId == courseId)
+                .ToListAsync();
+            return courseHours;
         }
     }
 }

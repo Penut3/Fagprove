@@ -18,7 +18,7 @@ namespace Presentation.Controllers
             _courseAttendanceService = courseAttendanceService;
         }
 
-        [HttpPost("AttendCourse")]
+        [HttpPost]
         public async Task<IActionResult> AttendCourse([FromBody] CourseAttendanceCreateDto attendanceDto)
         {
             if (attendanceDto == null) return BadRequest("Invalid request");
@@ -28,17 +28,17 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("GetAttendancesByCourseHourId/{courseHourId:guid}")]
-        public async Task<IActionResult> GetAttendancesByCourseHourId(Guid courseId)
+        public async Task<IActionResult> GetAttendancesByCourseHourId(Guid courseHourId)
         {
-            var result = await _courseAttendanceService.GetCourseAttendancesByCourseHoursIdAsync(courseId);
+            var result = await _courseAttendanceService.GetCourseAttendancesByCourseHoursIdAsync(courseHourId);
             if (result == null) return NotFound("No attendances found");
             return Ok(result);
         }
 
         [HttpGet("GetLackingAttendancesByCourseHourId/{courseHourId:guid}")]
-        public async Task<IActionResult> GetLackingAttendancesByCourseHourId(Guid courseId)
+        public async Task<IActionResult> GetLackingAttendancesByCourseHourId(Guid courseHourId)
         {
-            var result = await _courseAttendanceService.GetLackingCourseAttendancesByCourseHoursIdAsync(courseId);
+            var result = await _courseAttendanceService.GetLackingCourseAttendancesByCourseHoursIdAsync(courseHourId);
             if (result == null) return NotFound("No lacking attendances found");
             return Ok(result);
         }

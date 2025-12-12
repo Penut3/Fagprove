@@ -13,5 +13,7 @@ namespace Application.Interfaces.Services
         Task<User?> CreateUserAsync(UserCreateDto userDto);
         Task<UserLoginResultDto> LoginAsync(UserLoginDto loginDto);
         Task<User?> EditUserAsync(UserEditDto userEditDto);
+
+        Task<IEnumerable<User>> GetAllUsersAsync();
     }
 }

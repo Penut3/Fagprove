@@ -23,6 +23,12 @@ namespace Presentation.Controllers
             return Ok(participant);
         }
 
+        [HttpGet("All")]
+        public async Task<IActionResult> GetAllParticipants()
+        {
+            var participants = await _participantService.GetAllParticipantsAsync();
+            return Ok(participants);
+        }
 
         [HttpGet("GetParticipantsByCourseId/{id:guid}")]
         public async Task<IActionResult> GetParticipantsByCourseId(Guid id)

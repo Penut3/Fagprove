@@ -116,6 +116,11 @@ namespace Application.Services
             return user;
         }
 
-
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        {
+            return await _userRepo.GetQueryable()
+                .Where(u => !u.IsDeleted)
+                .ToListAsync();
+        }
     }
 }

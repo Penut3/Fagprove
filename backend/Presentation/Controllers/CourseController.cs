@@ -26,6 +26,13 @@ namespace Presentation.Controllers
             return CreatedAtAction(nameof(CreateCourse), new { id = course.Id }, course);
         }
 
+        [HttpGet("GetAllCourses")]
+        public async Task<IActionResult> GetAllCourses()
+        {
+            var courses = await _courseService.GetAllCoursesAsync();
+            return Ok(courses);
+        }
+
         [HttpGet("GetMyCourses")]
         [Authorize]
         public async Task<IActionResult> GetMyCourses()
@@ -47,5 +54,13 @@ namespace Presentation.Controllers
             return Ok(courses);
         }
 
+        [HttpGet("GetCourseHours/{courseId:guid}")]
+        public async Task<IActionResult> GetCourseHours(Guid courseId)
+        {
+            var courseHours = await _courseService.GetCourseHoursByCourseIdAsync(courseId);
+            if (courseHours == null || !courseHours.Any())
+                return NotFound("No course hours found");
+            return Ok(courseHours);
+        }
     }
 }   

@@ -1,60 +1,81 @@
-import Form from '../../components/Form/Form'
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import Form from "../../components/Form/Form";
 
 const ApiUrl = import.meta.env.VITE_BACKEND_API;
 
-function Login() {
-const navigate = useNavigate();
+type FormValues = Record<string, string | string[]>;
 
-  const handleLogin = async (values: Record<string, string>) => {
-    console.log('VALUES FROM FORM:', values);
+function Login() {
+  const navigate = useNavigate();
+
+  const handleLogin = async (values: FormValues) => {
+    const email = values.email as string;
+    const password = values.password as string;
+
+    console.log("VALUES FROM FORM:", values);
 
     const response = await fetch(`${ApiUrl}users/login`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(values),
+      // Send only what the backend likely expects
+      body: JSON.stringify({ email, password }),
+      credentials: "include", // include cookies if your backend uses them
     });
 
-    const data = await response.json();
-    console.log('API response:', data);
+    let data: any = null;
+    try {
+      data = await response.json();
+    } catch {
+      // if backend returns empty body on error, avoid crashing
+    }
+
+    console.log("API response:", data);
 
     if (!response.ok) {
-      throw new Error(data.message || 'Login failed');
+      throw new Error(data?.message || "Login failed");
     }
 
-    if(data.role_name == "Kontoransatt"){
-        navigate("/kontoransatt")
-    }
-     else if(data.role_name == "Lærer"){
-        navigate("/laerer")
+    if (data?.role_name === "Kontoransatt") {
+      navigate("/kontoransatt");
+    } else if (data?.role_name === "Lærer") {
+      navigate("/laerer");
+    } else {
+      // fallback if role is something else / missing
+      navigate("/");
     }
   };
 
-
-  return(
+  return (
     <section>
-      <div className='contentWidth'>
-        <div style={{display:"flex", alignItems:"center", height:"100%", minHeight:"90vh"}}>
-         <Form
-          fields={[
-            // { type: 'title', name: 'title', label: 'Registrert Bruker' },
-            // { name: 'ExistingUser', label: 'finnes bruker?', type: 'select', options: ['USA', 'Canada', 'Mexico'] },
-            { type: 'title', name: 'title', label: 'Logg inn' },
-            { type: 'text', name: 'email', label: 'Email', required: true },
-            { type: 'password', name: 'password', label: 'Passord', required: true },
-          ]}
-           onSubmit={handleLogin}
-        />
+      <div className="contentWidth">
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            height: "100%",
+            minHeight: "90vh",
+          }}
+        >
+          <Form
+            fields={[
+              { type: "title", name: "title", label: "Logg inn" },
+              { type: "text", name: "email", label: "Email", required: true },
+              {
+                type: "password",
+                name: "password",
+                label: "Passord",
+                required: true,
+              },
+            ]}
+            onSubmit={handleLogin}
+          />
         </div>
       </div>
     </section>
- 
-
-  ) 
+  );
 }
-
-
 
 export default Login;

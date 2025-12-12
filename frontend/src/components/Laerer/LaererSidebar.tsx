@@ -16,9 +16,9 @@ export function LaererSidebar() {
   const { pathname } = useLocation()
 
   const items = [
-    { title: "Login", to: "/" },
-    { title: "Før fravær", to: "/example" },
     { title: "Mine Kurs", to: "/laerer" },
+    { title: "Logg ut", to: "/" },
+  
   ]
 
   return (

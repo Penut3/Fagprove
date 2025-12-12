@@ -12,30 +12,36 @@ import {
   Select,
   MenuItem,
   InputLabel,
+  OutlinedInput,
 } from '@mui/material';
+import type { SelectChangeEvent } from '@mui/material/Select';
+
+// 1. Field config type
+export interface Option {
+  id: string;
+  label: string;
+}
 
 
-// 1. Define a Field config type
 export interface FieldConfig {
   name: string;
   label: string;
-  type: 'text' | 'number' | 'radio' | 'title' | 'select' | 'password'; // added 'title' type
+  type: 'text' | 'number' | 'radio' | 'title' | 'select' | 'multiselect' | 'password';
   required?: boolean;
-  options?: string[]; // only for radio
+  options?: Option[];
 }
-
-// 2. Define your component props
+// 2. Props
 interface FormProps {
   fields: FieldConfig[];
-  onSubmit?: (values: Record<string, string>) => void;
+  onSubmit?: (values: Record<string, string | string[]>) => void;
 }
 
-const Form: React.FC<FormProps> = ({ fields, onSubmit }) => {
-  // values are strings for both text/number/radio
-  const [values, setValues] = useState<Record<string, string>>({});
+type FormValues = Record<string, string | string[]>;
 
-  // 3. Type your handler parameters
-  const handleChange = (name: string, value: string) => {
+const Form: React.FC<FormProps> = ({ fields, onSubmit }) => {
+  const [values, setValues] = useState<FormValues>({});
+
+  const handleChange = (name: string, value: string | string[]) => {
     setValues(prev => ({ ...prev, [name]: value }));
   };
 
@@ -50,12 +56,9 @@ const Form: React.FC<FormProps> = ({ fields, onSubmit }) => {
         <FormControl fullWidth className={s.formControl}>
           {fields.map(field => {
             switch (field.type) {
-               case 'title':
-                return (
-                  <h1>
-                    {field.label}
-                  </h1>
-                );
+              case 'title':
+                return <h1 key={field.name}>{field.label}</h1>;
+
               case 'password':
               case 'text':
               case 'number':
@@ -70,37 +73,38 @@ const Form: React.FC<FormProps> = ({ fields, onSubmit }) => {
                     variant="filled"
                     required={field.required}
                     fullWidth
-                    value={values[field.name] || ''}
+                    value={(values[field.name] as string) || ''}
                     onChange={(e: ChangeEvent<HTMLInputElement>) =>
                       handleChange(field.name, e.target.value)
                     }
                   />
                 );
 
-              case 'radio':
-                return (
-                  <div key={field.name}>
-                    <FormLabel id={`${field.name}-label`}>{field.label}</FormLabel>
-                    <RadioGroup
-                      aria-labelledby={`${field.name}-label`}
-                      name={field.name}
-                      value={values[field.name] || ''}
-                      onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                        handleChange(field.name, e.target.value)
-                      }
-                    >
-                      {field.options?.map(opt => (
-                        <FormControlLabel
-                          key={opt}
-                          value={opt}
-                          control={<Radio />}
-                          label={opt}
-                        />
-                      ))}
-                    </RadioGroup>
-                  </div>
-                );
-              
+             case "radio":
+              return (
+                <div key={field.name}>
+                  <FormLabel id={`${field.name}-label`}>{field.label}</FormLabel>
+                  <RadioGroup
+                    aria-labelledby={`${field.name}-label`}
+                    name={field.name}
+                    value={(values[field.name] as string) || ""} // stores opt.id
+                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                      handleChange(field.name, e.target.value) // "true" or "false"
+                    }
+                  >
+                    {field.options?.map((opt) => (
+                      <FormControlLabel
+                        key={opt.id}
+                        value={opt.id}
+                        control={<Radio />}
+                        label={opt.label}
+                      />
+                    ))}
+                  </RadioGroup>
+                </div>
+              );
+
+
               case 'select':
                 return (
                   <FormControl fullWidth key={field.name} variant="filled" sx={{ mb: 2 }}>
@@ -108,26 +112,54 @@ const Form: React.FC<FormProps> = ({ fields, onSubmit }) => {
                     <Select
                       labelId={`${field.name}-label`}
                       name={field.name}
-                      value={values[field.name] || ''}
-                      onChange={(e) =>
-                        handleChange(field.name, e.target.value as string)
-                      }
+                      value={(values[field.name] as string) || ''}     // stores id
+                      onChange={(e) => handleChange(field.name, e.target.value as string)}
                       required={field.required}
                     >
                       {field.options?.map((opt) => (
-                        <MenuItem key={opt} value={opt}>
-                          {opt}
+                        <MenuItem key={opt.id} value={opt.id}>
+                          {opt.label}
                         </MenuItem>
                       ))}
                     </Select>
+
                   </FormControl>
                 );
 
+              case 'multiselect':
+                return (
+                  <FormControl fullWidth key={field.name} variant="filled" sx={{ mb: 2 }}>
+                    <InputLabel id={`${field.name}-label`}>{field.label}</InputLabel>
+                   <Select
+                    multiple
+                    labelId={`${field.name}-label`}
+                    name={field.name}
+                    value={(values[field.name] as string[]) || []}   // stores ids
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      handleChange(field.name, typeof v === 'string' ? v.split(',') : (v as string[]));
+                    }}
+                    renderValue={(selected) => {
+                      const ids = selected as string[];
+                      const idToLabel = new Map(field.options?.map(o => [o.id, o.label]));
+                      return ids.map(id => idToLabel.get(id) ?? id).join(', ');
+                    }}
+                  >
+                    {field.options?.map((opt) => (
+                      <MenuItem key={opt.id} value={opt.id}>
+                        {opt.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+
+                  </FormControl>
+                );
 
               default:
                 return null;
             }
           })}
+
           <Button type="submit" variant="contained" sx={{ mt: 2 }}>
             Submit
           </Button>

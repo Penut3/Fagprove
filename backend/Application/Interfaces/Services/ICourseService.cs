@@ -12,5 +12,7 @@ namespace Application.Interfaces.Services
     {
         Task<Course> CreateCourseAsync(CourseCreateDto courseDto);
         Task<IEnumerable<Course>> GetCoursesByUserIdAsync(Guid userId);
+        Task<IEnumerable<Course>> GetAllCoursesAsync();
+        Task<IEnumerable<CourseHours>> GetCourseHoursByCourseIdAsync(Guid courseId);
     }
 }

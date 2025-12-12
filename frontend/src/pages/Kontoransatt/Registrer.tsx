@@ -1,69 +1,100 @@
-import * as React from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import React, { useEffect, useMemo, useState } from "react";
 
-const ApiUrl = import.meta.env.VITE_BACKEND_API // e.g. "http://localhost:3000/"
+import Form from "@/components/Form/Form"
 
-type Field = {
-  name: string
-  label: string
-  type?: React.HTMLInputTypeAttribute
-  placeholder?: string
-  defaultValue?: string
-}
+const ApiUrl = import.meta.env.VITE_BACKEND_API
 
-const fields: Field[] = [
-  { name: "firstName", label: "Fornavn", placeholder: "Ola" },
-  { name: "lastName", label: "Etternavn", placeholder: "Nordmann" },
-  { name: "email", label: "Email", type: "email", placeholder: "ola@eksempel.no" },
-]
+
+ type CourseDto = {
+  id: string;
+  name: string;
+};
+
+type FormValues = Record<string, string | string[]>;
 
 export default function Registrer() {
-  const [values, setValues] = React.useState<Record<string, string>>(() =>
-    Object.fromEntries(fields.map((f) => [f.name, f.defaultValue ?? ""]))
-  )
 
-  const onChange =
-    (name: string) => (e: React.ChangeEvent<HTMLInputElement>) =>
-      setValues((v) => ({ ...v, [name]: e.target.value }))
+  const [courses, setCourses] = useState<CourseDto[]>([]);
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  useEffect(() => {
+    getCourses();
+  }, []);
+  
 
-    // NO error handling on purpose (as requested)
-    await fetch(`${ApiUrl}users/register`, {
+  const getCourses = async () => {
+    const res = await fetch(`${ApiUrl}course/GetAllCourses`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+
+    if (!res.ok) {
+      // optional: handle errors better
+      console.error("Failed to fetch courses", res.status);
+      return;
+    }
+
+    const data = (await res.json()) as CourseDto[];
+    setCourses(data);
+  };
+
+
+   const CreateParticipant = async (payload: {
+    name: string;
+    phoneNumber: string;
+    courseIds: string[];
+  }) => {
+    const res = await fetch(`${ApiUrl}participant`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    })
-  }
+      credentials: "include",
+      body: JSON.stringify(payload),
+    });
 
-  return (
+    if (!res.ok) {
+      console.error("Failed to post", res.status);
+      return;
+    }
+
+    // optional:
+    // const result = await res.json();
+  };
+
+  
+ const handleSubmit = (values: FormValues) => {
+    const payload = {
+      name: (values.name as string) ?? "",
+      phoneNumber: (values.password as string) ?? "", // you named the field "password" but it holds phone
+      courseIds: (values.courses as string[]) ?? [],
+    };
+
+    CreateParticipant(payload);
+  };
+
+  return(
    
-      <div className="w-full max-w-lg mx-auto p-6 space-y-6">
-        <h1 className=" font-semibold" style={{fontSize:"30px", marginBottom:"20px"}}>Registrer deltager</h1>
-
-        <form onSubmit={onSubmit} className="space-y-4">
-          {fields.map((f) => (
-            <div key={f.name} className="space-y-2">
-              <Label htmlFor={f.name}>{f.label}</Label>
-              <Input
-                id={f.name}
-                name={f.name}
-                type={f.type ?? "text"}
-                placeholder={f.placeholder}
-                value={values[f.name] ?? ""}
-                onChange={onChange(f.name)}
-              />
-            </div>
-          ))}
-
-          <Button type="submit" className="w-full">
-            Send
-          </Button>
-        </form>
+      <div className='contentWidth'>
+        <div style={{display:"flex", alignItems:"center", height:"100%"}}>
+         <Form
+          fields={[
+            { type: "title", name: "title", label: "Registrer" },
+            { type: "text", name: "name", label: "Navn", required: true },
+            { type: "password", name: "password", label: "Telefon", required: true },
+            {
+              name: "courses",
+              label: "Courses",
+              type: "multiselect" as const,
+              options: courses.map((c) => ({ id: c.id, label: c.name })),
+            },
+          ]}
+          onSubmit={handleSubmit}
+          
+        />
+        </div>
       </div>
-   
-  )
+  
+ 
+
+  ) 
 }
+
