@@ -13,6 +13,7 @@ type Attendance = {
   wasPresent: boolean;
   createdAt: string;
   isDeleted: boolean;
+  participantName: string;
 };
 
 export default function Attendance() {
@@ -50,7 +51,7 @@ export default function Attendance() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>ParticipantId</TableHead>
+              <TableHead>Deltakernavn</TableHead>
               <TableHead>Var tilstedet</TableHead>
               <TableHead className="text-right">Opprettet</TableHead>
             </TableRow>
@@ -59,7 +60,7 @@ export default function Attendance() {
           <TableBody>
             {attendances.map((h) => (
               <TableRow key={h.id}>
-                <TableCell>{h.participantId}</TableCell>
+                <TableCell>{h.participantName}</TableCell>
                 <TableCell>{h.wasPresent ? "Ja" : "Nei"}</TableCell>
                 <TableCell className="text-right">
                   {new Date(h.createdAt).toLocaleDateString("no-NB")}

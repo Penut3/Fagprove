@@ -11,7 +11,7 @@ namespace Application.Interfaces.Services
     public interface ICourseAttendanceService
     {
         Task<CourseAttendance> CreateCourseAttendanceAsync(CourseAttendanceCreateDto courseDto);
-        Task<IEnumerable<CourseAttendance>> GetCourseAttendancesByCourseHoursIdAsync(Guid courseHoursId);
+        Task<IEnumerable<CourseAttendanceGetDto>> GetCourseAttendancesByCourseHoursIdAsync(Guid courseHoursId);
         Task<IEnumerable<Participant>> GetLackingCourseAttendancesByCourseHoursIdAsync(Guid courseHoursId);
     }
 }

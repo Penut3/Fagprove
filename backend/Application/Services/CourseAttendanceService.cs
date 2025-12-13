@@ -41,14 +41,25 @@ namespace Application.Services
             return courseAttendance;
         }
 
-        public async Task<IEnumerable<CourseAttendance>> GetCourseAttendancesByCourseHoursIdAsync(Guid courseHoursId)
+        public async Task<IEnumerable<CourseAttendanceGetDto>> GetCourseAttendancesByCourseHoursIdAsync(Guid courseHoursId)
         {
-            var courseAttendances = await _courseAttendanceRepo
+            return await _courseAttendanceRepo
                 .GetQueryable()
                 .Where(ca => ca.CourseHoursId == courseHoursId)
+                .Select(ca => new CourseAttendanceGetDto
+                {
+                    ParticipantId = ca.ParticipantId,
+                    ParticipantName = ca.Participant.Name,
+                    WasPresent = ca.WasPresent,
+                    CreatedAt = ca.CreatedAt,
+                    CourseHoursId = ca.CourseHoursId,
+                    Id = ca.Id,
+                    IsDeleted = ca.IsDeleted
+                })
                 .ToListAsync();
-            return courseAttendances;
         }
+
+
 
         public async Task<IEnumerable<Participant>> GetLackingCourseAttendancesByCourseHoursIdAsync(Guid courseHoursId)
         {
