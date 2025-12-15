@@ -39,7 +39,7 @@ function Login() {
     }
 
     if (data?.role_name === "Kontoransatt") {
-      navigate("/kontoransatt");
+      navigate("/kontor/participants");
     } else if (data?.role_name === "Lærer") {
       navigate("/laerer");
     } else {
@@ -72,7 +72,6 @@ function Login() {
             ]}
             onSubmit={handleLogin}
           >
-            <h1>vilkår og betingelser</h1>
           </Form>
         </div>
       </div>

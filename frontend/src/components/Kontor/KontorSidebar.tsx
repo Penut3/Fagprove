@@ -16,9 +16,9 @@ export function KontorSidebar() {
   const { pathname } = useLocation()
 
  const items = [
-    { title: "Kontor Side", to: "/Kontoransatt" },
-    { title: "Alle brukere", to: "/users" }, // Or use "/kontoransatt" as the default
-    { title: "Registrer Deltager", to: "/registrer" },
+    { title: "Alle deltakere", to: "/kontor/participants" },
+    { title: "Alle brukere", to: "/kontor/users" }, // Or use "/kontoransatt" as the default
+    { title: "Registrer Deltaker", to: "/kontor/registrer" },
     { title: "Logg ut", to: "/" },
   ]
 
@@ -44,7 +44,14 @@ export function KontorSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="p-4 text-sm text-muted-foreground">
-        © 2025
+        © 2025 
+        <Link  
+          style={{
+            color: "grey",
+            textDecoration: "underline",
+          }}to={"/personvernserklering"}
+          >Personvernerklæring
+        </Link>
       </SidebarFooter>
     </Sidebar>
   )

@@ -22,7 +22,7 @@ type Participant = {
 
 
 
-function Kontoransatt() {
+function AllParticpants() {
   const [participants, setParticipants] = useState<Participant[]>([]);
 
   useEffect(() => {
@@ -72,8 +72,9 @@ function Kontoransatt() {
                 <TableCell>{p.phoneNumber}</TableCell>
                 <TableCell>
                   <Link
-                  to={"/kontoransatt/praticipant/"}>
-                  kurs
+                 
+                  to={`/kontor/participants/participant-courses/${p.id}`}>
+                  <p >kurs</p>
                   </Link>
                 </TableCell>
                 <TableCell className="text-right">
@@ -96,4 +97,4 @@ function Kontoransatt() {
   );
 }
 
-export default Kontoransatt
+export default AllParticpants

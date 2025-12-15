@@ -42,8 +42,15 @@ export function LaererSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="p-4 text-sm text-muted-foreground">
-        © 2025
+       <SidebarFooter className="p-4 text-sm text-muted-foreground">
+        © 2025 
+        <Link  
+          style={{
+            color: "grey",
+            textDecoration: "underline",
+          }}to={"/personvernserklering"}
+          >Personvernerklæring
+        </Link>
       </SidebarFooter>
     </Sidebar>
   )

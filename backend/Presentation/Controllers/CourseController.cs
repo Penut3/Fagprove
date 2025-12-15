@@ -62,5 +62,14 @@ namespace Presentation.Controllers
                 return NotFound("No course hours found");
             return Ok(courseHours);
         }
+
+        [HttpGet("GetCoursesByParticipantId/{participantId:guid}")]
+        public async Task<IActionResult> GetCourseByParticipantId(Guid participantId)
+        {
+            var courses = await _courseService.GetCourseByParticipantIdAsync(participantId);
+            if (courses == null || !courses.Any())
+                return NotFound("No courses found for the participant");
+            return Ok(courses);
+        }
     }
 }   

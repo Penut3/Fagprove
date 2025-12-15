@@ -14,5 +14,6 @@ namespace Application.Interfaces.Services
         Task<IEnumerable<Course>> GetCoursesByUserIdAsync(Guid userId);
         Task<IEnumerable<Course>> GetAllCoursesAsync();
         Task<IEnumerable<CourseHours>> GetCourseHoursByCourseIdAsync(Guid courseId);
+        Task<IEnumerable<Course>> GetCourseByParticipantIdAsync(Guid participantId);
     }
 }

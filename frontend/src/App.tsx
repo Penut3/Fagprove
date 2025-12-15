@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import type { FooterSection, FooterLink } from './components/Footer/Footer.types';
 // import Footer from './components/Footer/Footer';
 import Login from './pages/Login/Login'
-import Kontoransatt from './pages/Kontoransatt/Kontoransatt'
+import AllParticipants from './pages/Kontoransatt/AllParticpants'
 import Laerer from './pages/Lærer/Laerer'
 import Registrer from './pages/Kontoransatt/Registrer';
 import AllUsersPage from './pages/Kontoransatt/AllUsersPage';
@@ -15,6 +15,8 @@ import Attendance from './pages/Lærer/Attendance';
 import MissingAttendance from './pages/Lærer/MissingAttendance';
 import CreateAttendance from './pages/Lærer/CreateAttendance';
 import TermsAndConditions from './pages/Personvern/TermsAndConditions';
+import ParticipantCourses from './pages/Kontoransatt/ParticipantCourses';
+import PrivacyPolicy from './pages/Personvern/PrivacyPolicy';
 
 // const sections: FooterSection[] = [
 //   {
@@ -61,11 +63,13 @@ function App() {
            
             <Route path="/" element={<Login />} />
             <Route path="/vilkar-og-betingelser" element={<TermsAndConditions />} />
+            <Route path="/personvernserklering" element={<PrivacyPolicy />} />
 
             <Route element={<KontorLayout />}>
-              <Route path="/kontoransatt" element={<Kontoransatt />} />
-              <Route path="/registrer" element={<Registrer />} />
-              <Route path="/users" element={<AllUsersPage />} />
+              <Route path="/kontor/participants" element={<AllParticipants />} />
+              <Route path="/kontor/registrer" element={<Registrer />} />
+              <Route path="/kontor/users" element={<AllUsersPage />} />
+              <Route path="/kontor/participants/participant-courses/:participantId" element={<ParticipantCourses />} />
             </Route>
 
             <Route element={<LaererLayout />}>

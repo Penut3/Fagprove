@@ -112,7 +112,9 @@ const [termsError, setTermsError] = useState<string | null>(null);
 
   <span>
     Bruker aksepterer{" "}
-    <Link to="/vilkar-og-betingelser">vilkår og betingelser</Link>
+    <Link to="/vilkar-og-betingelser">vilkår og betingelser </Link>
+     og  
+     <Link to="/personvernserklering"> personvernserklering</Link>
   </span>
     <input
     type="checkbox"

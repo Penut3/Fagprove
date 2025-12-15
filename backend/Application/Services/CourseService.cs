@@ -11,11 +11,13 @@ namespace Application.Services
     {
         private readonly IBaseRepository<Course> _courseRepo;
         private readonly IBaseRepository<CourseHours> _courseHoursRepo;
+        private readonly IBaseRepository<ParticipantCourse> _participantCourseRepo;
 
-        public CourseService(IBaseRepository<Course> courseRepo, IBaseRepository<CourseHours> courseHoursRepo)
+        public CourseService(IBaseRepository<Course> courseRepo, IBaseRepository<CourseHours> courseHoursRepo, IBaseRepository<ParticipantCourse> participantCourseRepo)
         {
             _courseRepo = courseRepo;
             _courseHoursRepo = courseHoursRepo;
+            _participantCourseRepo = participantCourseRepo;
         }
 
         public async Task<Course> CreateCourseAsync(CourseCreateDto courseDto)
@@ -68,6 +70,21 @@ namespace Application.Services
                 .Where(ch => ch.CourseId == courseId)
                 .ToListAsync();
             return courseHours;
+        }
+
+        public async Task<IEnumerable<Course>> GetCourseByParticipantIdAsync(Guid participantId)
+        {
+            var participantCourses = await _participantCourseRepo
+                .GetQueryable()
+                .Where(pc => pc.ParticipantId == participantId)
+                .ToListAsync();
+
+            var courses = await _courseRepo
+                .GetQueryable()
+                .Where(c => participantCourses.Select(pc => pc.CourseId).Contains(c.Id))
+                .ToListAsync();
+
+            return courses;
         }
     }
 }
