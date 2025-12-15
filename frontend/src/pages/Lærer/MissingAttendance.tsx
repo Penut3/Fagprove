@@ -5,6 +5,7 @@ import {
 } from "../../components/ui/table";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { Button } from "../../components/ui/button";
 
 const ApiUrl = import.meta.env.VITE_BACKEND_API;
 
@@ -44,6 +45,13 @@ export default function MissingAttendance() {
   };
 
   return (
+    <>
+    <Button
+      variant="outline"
+      onClick={() => navigate(-1)}
+    >
+      Tilbake
+    </Button>
     <section>
       <div className="contentWidth">
         <div style={{ display: "flex", justifyContent: "flex-left" }}>
@@ -67,10 +75,9 @@ export default function MissingAttendance() {
                 <TableCell>{h.phoneNumber}</TableCell>
                 <TableCell
                     key={h.id}
-                   
                     >
                         <Link
-                        to={`/laerer/CreateAttendance/${courseHourId}/${h.id}`}>
+                        to={`/laerer/create-attendance/${courseHourId}/${h.id}`}>
                          registrer
                         </Link>
                    
@@ -92,5 +99,6 @@ export default function MissingAttendance() {
         </Table>
       </div>
     </section>
+  </>
   );
 }

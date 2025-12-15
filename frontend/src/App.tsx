@@ -69,9 +69,9 @@ function App() {
             <Route element={<LaererLayout />}>
               <Route path="/laerer" element={<Laerer />} />
               <Route path="/laerer/:courseId" element={<CourseHours />} />
-              <Route path="/laerer/:courseId/:courseHourId/attendances" element={<Attendance />} />
-              <Route path="/laerer/:courseId/:courseHourId/missing-attendances" element={<MissingAttendance />} />
-              <Route path="/laerer/CreateAttendance/:courseHourId/:participantId" element={<CreateAttendance />} />
+              <Route path="/laerer/attendances/:courseId/:courseHourId" element={<Attendance />} />
+              <Route path="/laerer/missing-attendances/:courseId/:courseHourId" element={<MissingAttendance />} />
+              <Route path="/laerer/create-attendance/:courseHourId/:participantId" element={<CreateAttendance />} />
             </Route>
             
           </Routes>

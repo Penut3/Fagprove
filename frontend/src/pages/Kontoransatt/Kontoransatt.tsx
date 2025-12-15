@@ -8,6 +8,7 @@ import {
   TableCell,
   TableCaption,
 } from "../../components/ui/table";
+import { Link } from "react-router-dom";
 
 const ApiUrl = import.meta.env.VITE_BACKEND_API;
 
@@ -48,9 +49,9 @@ function Kontoransatt() {
   return (
     <section>
       <div className="contentWidth">
-        <h1>Kontoransatt side</h1>
-        <div style={{display:"flex", justifyContent:"center"}}>
-          <h2 style={{color:"grey", fontWeight:"500"}}>Alle deltakere</h2>
+        
+         <div style={{display:"flex", justifyContent:"flex-left"}}>
+          <h2 style={{ fontWeight:"500"}}>Alle deltagere</h2>
         </div>
         <Table>
           
@@ -59,6 +60,7 @@ function Kontoransatt() {
             <TableRow>
               <TableHead>Navn</TableHead>
               <TableHead>Telefon</TableHead>
+              <TableHead>Kurs</TableHead>
               <TableHead className="text-right">Opprettet</TableHead>
             </TableRow>
           </TableHeader>
@@ -68,6 +70,12 @@ function Kontoransatt() {
               <TableRow key={p.id}>
                 <TableCell>{p.name}</TableCell>
                 <TableCell>{p.phoneNumber}</TableCell>
+                <TableCell>
+                  <Link
+                  to={"/kontoransatt/praticipant/"}>
+                  kurs
+                  </Link>
+                </TableCell>
                 <TableCell className="text-right">
                   {new Date(p.createdAt).toLocaleDateString("no-NB")}
                 </TableCell>

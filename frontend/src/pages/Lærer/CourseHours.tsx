@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 import {
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
 } from "../../components/ui/table";
-import { Tab } from "@mui/material";
+
+import { Button } from "../../components/ui/button";
 
 const ApiUrl = import.meta.env.VITE_BACKEND_API;
 
@@ -20,7 +21,7 @@ type CourseHour = {
 export default function CourseHours() {
   const { courseId } = useParams<{ courseId: string }>();
   const [courseHours, setCourseHours] = useState<CourseHour[]>([]);
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!courseId) return;
@@ -44,7 +45,16 @@ export default function CourseHours() {
   };
 
   return (
+    <>
+ <Button
+  variant="outline"
+  onClick={() => navigate(-1)}
+>
+  Tilbake
+</Button>
+
     <section>
+      
       <div className="contentWidth">
         <div style={{ display: "flex", justifyContent: "flex-left" }}>
           <h2 style={{ fontWeight: "500" }}>Kurstimer</h2>
@@ -68,7 +78,7 @@ export default function CourseHours() {
                <TableCell>
                 <div style={{ display: "flex", gap: "8px" }}>
                     <Link
-                    to={`/laerer/${courseId}/${h.id}/attendances`}
+                    to={`/laerer/attendances/${courseId}/${h.id}`}
                     style={{ textDecoration: "underline" }}
                     >
                     se innførte
@@ -77,7 +87,7 @@ export default function CourseHours() {
                     <span>/</span>
 
                     <Link
-                    to={`/laerer/${courseId}/${h.id}/missing-attendances`}
+                    to={`/laerer/missing-attendances/${courseId}/${h.id}`}
                     style={{ textDecoration: "underline" }}
                     >
                     se manglende
@@ -102,5 +112,6 @@ export default function CourseHours() {
         </Table>
       </div>
     </section>
+    </>
   );
 }

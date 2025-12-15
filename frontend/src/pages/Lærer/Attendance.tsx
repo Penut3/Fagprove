@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import {
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
 } from "../../components/ui/table";
+import { Button } from "../../components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const ApiUrl = import.meta.env.VITE_BACKEND_API;
 
@@ -19,6 +21,7 @@ type Attendance = {
 export default function Attendance() {
   const { courseHourId } = useParams<{ courseHourId: string }>();
   const [attendances, setAttendances] = useState<Attendance[]>([]);
+   const navigate = useNavigate();
 
   useEffect(() => {
     if (!courseHourId) return;
@@ -42,6 +45,13 @@ export default function Attendance() {
   };
 
   return (
+    <>
+      <Button
+      variant="outline"
+      onClick={() => navigate(-1)}
+    >
+      Tilbake
+    </Button>
     <section>
       <div className="contentWidth">
         <div style={{ display: "flex", justifyContent: "flex-left" }}>
@@ -79,5 +89,6 @@ export default function Attendance() {
         </Table>
       </div>
     </section>
+    </>
   );
 }
