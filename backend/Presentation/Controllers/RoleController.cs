@@ -16,6 +16,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "Kontor")]
         public async Task<IActionResult> CreateRole(string roleName)
         {
             var role = await _roleService.CreateRoleAsync(roleName);

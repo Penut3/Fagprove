@@ -16,17 +16,30 @@ namespace Presentation.Controllers
             _courseService = courseService;
         }
 
-
         [HttpPost("CreateCourse")]
+        [Authorize(Policy = "Lærer")]
         public async Task<IActionResult> CreateCourse([FromBody] CourseCreateDto courseDto)
         {
-            if (courseDto == null) return BadRequest("Invalid request");
-            var course = await _courseService.CreateCourseAsync(courseDto);
-            if (course == null) return BadRequest("Could not create course");
+            if (courseDto == null)
+                return BadRequest("Invalid request");
+
+            var userIdClaim = User.FindFirst("dbUserId")?.Value;
+            if (string.IsNullOrWhiteSpace(userIdClaim))
+                return Unauthorized("UserId claim missing");
+
+            if (!Guid.TryParse(userIdClaim, out var userId))
+                return Unauthorized("Invalid UserId claim");
+
+            var course = await _courseService.CreateCourseAsync(courseDto, userId);
+
+            if (course == null)
+                return BadRequest("Could not create course");
+
             return CreatedAtAction(nameof(CreateCourse), new { id = course.Id }, course);
         }
 
         [HttpGet("GetAllCourses")]
+        [Authorize(Policy = "Kontor")]
         public async Task<IActionResult> GetAllCourses()
         {
             var courses = await _courseService.GetAllCoursesAsync();
@@ -34,7 +47,7 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("GetMyCourses")]
-        [Authorize]
+        [Authorize(Policy ="Lærer")]
         public async Task<IActionResult> GetMyCourses()
         {
             // Try to get the dbUserId claim directly
@@ -55,6 +68,7 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("GetCourseHours/{courseId:guid}")]
+        [Authorize(Policy = "Lærer")]
         public async Task<IActionResult> GetCourseHours(Guid courseId)
         {
             var courseHours = await _courseService.GetCourseHoursByCourseIdAsync(courseId);
@@ -64,6 +78,7 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("GetCoursesByParticipantId/{participantId:guid}")]
+        [Authorize(Policy = "Kontor")]
         public async Task<IActionResult> GetCourseByParticipantId(Guid participantId)
         {
             var courses = await _courseService.GetCourseByParticipantIdAsync(participantId);

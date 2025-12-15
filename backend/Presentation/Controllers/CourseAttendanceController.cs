@@ -9,6 +9,7 @@ namespace Presentation.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Policy = "Lærer")]
     public class CourseAttendanceController : ControllerBase
     {
         private readonly ICourseAttendanceService _courseAttendanceService;

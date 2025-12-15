@@ -36,7 +36,7 @@ builder.Services.AddAuthorization(options =>
         policy.RequireRole("78901234-5678-9012-3456-789012345678");
     });
 
-    options.AddPolicy("Kontoransatt", policy =>
+    options.AddPolicy("Kontor", policy =>
     {
         policy.RequireAuthenticatedUser();
         policy.RequireRole("90123456-7890-1234-5678-901234567890");

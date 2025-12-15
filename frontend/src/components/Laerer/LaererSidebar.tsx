@@ -17,7 +17,9 @@ export function LaererSidebar() {
 
   const items = [
     { title: "Mine Kurs", to: "/laerer" },
+    { title: "Lag Kurs", to: "/laerer/create-course" },
     { title: "Logg ut", to: "/" },
+
   
   ]
 

@@ -10,7 +10,7 @@ namespace Application.Interfaces.Services
 {
     public interface ICourseService
     {
-        Task<Course> CreateCourseAsync(CourseCreateDto courseDto);
+        Task<Course> CreateCourseAsync(CourseCreateDto courseDto, Guid userId);
         Task<IEnumerable<Course>> GetCoursesByUserIdAsync(Guid userId);
         Task<IEnumerable<Course>> GetAllCoursesAsync();
         Task<IEnumerable<CourseHours>> GetCourseHoursByCourseIdAsync(Guid courseId);

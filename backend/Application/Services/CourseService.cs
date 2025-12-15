@@ -20,13 +20,13 @@ namespace Application.Services
             _participantCourseRepo = participantCourseRepo;
         }
 
-        public async Task<Course> CreateCourseAsync(CourseCreateDto courseDto)
+        public async Task<Course> CreateCourseAsync(CourseCreateDto courseDto, Guid userId)
         {
             var course = new Course
             {
                 Id = Guid.NewGuid(),
                 Name = courseDto.Name,
-                UserId = courseDto.UserId,
+                UserId = userId,
             };
 
             await _courseRepo.Add(course);

@@ -17,6 +17,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "Kontor")]
         public async Task<IActionResult> CreateParticipant(ParticipantCreateDto participantDto)
         {
             var participant = await _participantService.CreateParticipantAsync(participantDto);
@@ -24,6 +25,7 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("All")]
+        [Authorize(Policy = "Kontor")]
         public async Task<IActionResult> GetAllParticipants()
         {
             var participants = await _participantService.GetAllParticipantsAsync();
@@ -31,6 +33,7 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("GetParticipantsByCourseId/{id:guid}")]
+        [Authorize]
         public async Task<IActionResult> GetParticipantsByCourseId(Guid id)
         {
             var participants = await _participantService.GetParticipantsByCourseIdAsync(id);

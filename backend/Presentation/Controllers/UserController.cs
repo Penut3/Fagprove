@@ -12,6 +12,7 @@ namespace Presentation.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Policy = "Kontor")]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
