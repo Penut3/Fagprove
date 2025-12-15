@@ -14,6 +14,7 @@ import CourseHours from './pages/Lærer/CourseHours';
 import Attendance from './pages/Lærer/Attendance';
 import MissingAttendance from './pages/Lærer/MissingAttendance';
 import CreateAttendance from './pages/Lærer/CreateAttendance';
+import TermsAndConditions from './pages/Personvern/TermsAndConditions';
 
 // const sections: FooterSection[] = [
 //   {
@@ -59,6 +60,7 @@ function App() {
            
            
             <Route path="/" element={<Login />} />
+            <Route path="/vilkar-og-betingelser" element={<TermsAndConditions />} />
 
             <Route element={<KontorLayout />}>
               <Route path="/kontoransatt" element={<Kontoransatt />} />

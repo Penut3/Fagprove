@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 
 import Form from "@/components/Form/Form"
+import { Link } from "react-router-dom";
 
 const ApiUrl = import.meta.env.VITE_BACKEND_API
 
@@ -15,6 +16,9 @@ type FormValues = Record<string, string | string[]>;
 export default function Registrer() {
 
   const [courses, setCourses] = useState<CourseDto[]>([]);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
+const [termsError, setTermsError] = useState<string | null>(null);
+
 
   useEffect(() => {
     getCourses();
@@ -62,14 +66,20 @@ export default function Registrer() {
 
   
  const handleSubmit = (values: FormValues) => {
-    const payload = {
-      name: (values.name as string) ?? "",
-      phoneNumber: (values.password as string) ?? "", // you named the field "password" but it holds phone
-      courseIds: (values.courses as string[]) ?? [],
-    };
+  if (!acceptedTerms) {
+    setTermsError("Du må godta vilkår og betingelser før du kan fortsette.");
+    return;
+  }
 
-    CreateParticipant(payload);
+  const payload = {
+    name: (values.name as string) ?? "",
+    phoneNumber: (values.password as string) ?? "",
+    courseIds: (values.courses as string[]) ?? [],
   };
+
+  CreateParticipant(payload);
+};
+
 
   return(
    
@@ -89,7 +99,37 @@ export default function Registrer() {
           ]}
           onSubmit={handleSubmit}
           
-        />
+        >
+         <label
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    marginTop: "12px",
+  }}
+>
+
+
+  <span>
+    Bruker aksepterer{" "}
+    <Link to="/vilkar-og-betingelser">vilkår og betingelser</Link>
+  </span>
+    <input
+    type="checkbox"
+    checked={acceptedTerms}
+    onChange={(e) => {
+      setAcceptedTerms(e.target.checked);
+      setTermsError(null);
+    }}
+  />
+</label>
+
+{termsError && (
+  <p style={{ color: "red", marginTop: "4px", fontSize: "0.85rem" }}>
+    {termsError}
+  </p>
+)}
+        </Form>
         </div>
       </div>
   

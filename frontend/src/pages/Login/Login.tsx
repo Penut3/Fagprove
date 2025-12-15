@@ -71,7 +71,9 @@ function Login() {
               },
             ]}
             onSubmit={handleLogin}
-          />
+          >
+            <h1>vilkår og betingelser</h1>
+          </Form>
         </div>
       </div>
     </section>

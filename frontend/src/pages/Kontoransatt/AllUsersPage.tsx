@@ -47,8 +47,8 @@ function AllUsersPage() {
   return (
     <section>
       <div className="contentWidth">
-        <div style={{display:"flex", justifyContent:"center"}}>
-          <h2 style={{color:"grey", fontWeight:"500"}}>Alle Brukere</h2>
+        <div style={{display:"flex", justifyContent:"flex-left"}}>
+          <h2 style={{ fontWeight:"500"}}>Alle brukere</h2>
         </div>
         <Table>
           
