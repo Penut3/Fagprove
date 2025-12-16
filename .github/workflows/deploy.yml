@@ -10,7 +10,7 @@ on:
 
 env:
   AZURE_WEBAPP_NAME: 'backend-test'
-  BACKEND_PATH: 'backend/FagprøveApi'
+  BACKEND_PATH: 'backend/Presentation'
   FRONTEND_PATH: 'frontend'
   PUBLISH_OUTPUT: '${{ github.workspace }}/publish-output'
   DOTNET_VERSION: '8.0.x'
