@@ -46,7 +46,7 @@ namespace Infrastructure.Authentication
 
             //TEMP DEBUG
             var debugJson = JsonSerializer.Serialize(payload);
-            Console.WriteLine($"[CreateAuthUser] Payload: {debugJson}");
+            //Console.WriteLine($"[CreateAuthUser] Payload: {debugJson}");
 
             var request = new HttpRequestMessage(HttpMethod.Post, $"{_supabaseUrl}/auth/v1/admin/users");
             request.Headers.Add("apikey", _supabaseKey);               // service role key required for admin

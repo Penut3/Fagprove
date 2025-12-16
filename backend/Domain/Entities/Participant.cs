@@ -10,5 +10,6 @@ namespace Domain.Entities
     {
         public string Name { get; set; } = null!;
         public string PhoneNumber { get; set; } = null!;
+        public DateTime? ConsentGivenAt { get; set; }
     }
 }

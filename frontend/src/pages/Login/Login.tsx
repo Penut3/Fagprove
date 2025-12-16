@@ -13,7 +13,7 @@ function Login() {
     const email = values.email as string;
     const password = values.password as string;
 
-    console.log("VALUES FROM FORM:", values);
+    // console.log("VALUES FROM FORM:", values);
 
     const response = await fetch(`${ApiUrl}users/login`, {
       method: "POST",
@@ -32,7 +32,7 @@ function Login() {
       // if backend returns empty body on error, avoid crashing
     }
 
-    console.log("API response:", data);
+    // console.log("API response:", data);
 
     if (!response.ok) {
       throw new Error(data?.message || "Login failed");
