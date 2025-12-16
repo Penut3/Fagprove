@@ -95,9 +95,13 @@ export default function CourseHours() {
                 </div>
                 </TableCell>
 
-                <TableCell className="text-right">
-                  {new Date(h.createdAt).toLocaleDateString("no-NB")}
-                </TableCell>
+                  <TableCell className="text-right">
+                    {new Intl.DateTimeFormat("nb-NO", {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                    }).format(new Date(h.createdAt))}
+                    </TableCell>
               </TableRow>
             ))}
 

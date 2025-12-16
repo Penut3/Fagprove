@@ -70,9 +70,13 @@ function Laerer() {
               style={{ cursor: "pointer" }}
             >
               <TableCell className="underline">{c.name}</TableCell>
-              <TableCell className="text-right">
-                {new Date(c.createdAt).toLocaleDateString("no-NB")}
-              </TableCell>
+               <TableCell className="text-right">
+                    {new Intl.DateTimeFormat("nb-NO", {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                    }).format(new Date(c.createdAt))}
+                    </TableCell>
             </TableRow>
           ))}
         </TableBody>

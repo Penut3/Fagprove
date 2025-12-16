@@ -64,9 +64,13 @@ function AllUsersPage() {
             {users.map((p) => (
               <TableRow key={p.id}>
                 <TableCell>{p.email}</TableCell>
-                <TableCell className="text-right">
-                  {new Date(p.createdAt).toLocaleDateString("no-NB")}
-                </TableCell>
+                 <TableCell className="text-right">
+                    {new Intl.DateTimeFormat("nb-NO", {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                    }).format(new Date(p.createdAt))}
+                    </TableCell>
               </TableRow>
             ))}
 

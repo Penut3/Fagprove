@@ -78,7 +78,13 @@ function AllParticpants() {
                   </Link>
                 </TableCell>
                 <TableCell className="text-right">
-                  {new Date(p.createdAt).toLocaleDateString("no-NB")}
+                 
+                    {new Intl.DateTimeFormat("nb-NO", {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                    }).format(new Date(p.createdAt))}
+                 
                 </TableCell>
               </TableRow>
             ))}

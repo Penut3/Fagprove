@@ -72,19 +72,21 @@ namespace Application.Services
             return courseHours;
         }
 
-        public async Task<IEnumerable<Course>> GetCourseByParticipantIdAsync(Guid participantId)
+        public async Task<IEnumerable<ParticipantCourseGetDto>> GetCourseByParticipantIdAsync(Guid participantId)
         {
-            var participantCourses = await _participantCourseRepo
+            var result = await _participantCourseRepo
                 .GetQueryable()
-                .Where(pc => pc.ParticipantId == participantId)
+               .Where(pc => pc.ParticipantId == participantId)
+                .Select(pc => new ParticipantCourseGetDto
+                {
+                    Name = pc.Course.Name,
+                    JoinedAt = pc.CreatedAt,
+                })
+
                 .ToListAsync();
 
-            var courses = await _courseRepo
-                .GetQueryable()
-                .Where(c => participantCourses.Select(pc => pc.CourseId).Contains(c.Id))
-                .ToListAsync();
-
-            return courses;
+            return result;
         }
+
     }
 }

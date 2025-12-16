@@ -13,6 +13,7 @@ const ApiUrl = import.meta.env.VITE_BACKEND_API;
  type CourseDto = {
   id: string;
   name: string;
+  joinedAt: string;
 };
 
 
@@ -63,10 +64,8 @@ const [courses, setCourses] = useState<CourseDto[]>([]);
             <Table>
             <TableHeader>
                 <TableRow>
-                <TableHead>Start</TableHead>
-                <TableHead>Varighet i minutter</TableHead>
-                <TableHead>Fravær og tilstedeværelse</TableHead>
-                <TableHead className="text-right">Opprettet</TableHead>
+                <TableHead>Navn</TableHead>
+                <TableHead>Ble med</TableHead>
                 </TableRow>
             </TableHeader>
 
@@ -74,6 +73,14 @@ const [courses, setCourses] = useState<CourseDto[]>([]);
                 {courses.map((h) => (
                 <TableRow key={h.id}>
                     <TableCell>{h.name}</TableCell>
+                   <TableCell>
+  {new Intl.DateTimeFormat("nb-NO", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  }).format(new Date(h.joinedAt))}
+</TableCell>
+
 
 
                 </TableRow>
