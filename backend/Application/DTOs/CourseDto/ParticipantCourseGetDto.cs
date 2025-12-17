@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.CourseDto
 {
-    public class ParticipantCourseGetDto
+    public record ParticipantCourseGetDto
     {
         public string Name { get; set; } = null!;
         public DateTime JoinedAt { get; set; }

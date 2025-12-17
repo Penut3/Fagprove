@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.SupabaseDto
 {
-    public class SupabaseUpdateUserDto
+    public record SupabaseUpdateUserDto
     {
         public string SupabaseId { get; set; }
         public Guid? UserId { get; set; }   // now nullable

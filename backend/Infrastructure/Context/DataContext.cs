@@ -30,5 +30,8 @@ public class DataContext : DbContext
             new Role { Id = roleOffice, Name = "Kontoransatt", CreatedAt = DateTime.UtcNow },
             new Role { Id = roleTeacher, Name = "Lærer", CreatedAt = DateTime.UtcNow }
         );
+
+            modelBuilder.Entity<Course>()
+        .HasIndex(c => c.UserId);
     }
 }

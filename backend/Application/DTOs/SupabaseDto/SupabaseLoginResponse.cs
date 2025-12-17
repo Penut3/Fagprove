@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.SupabaseDto
 {
-    public class SupabaseLoginResponse
+    public record SupabaseLoginResponse
     {
         [JsonPropertyName("access_token")]
         public string AccessToken { get; set; } = string.Empty;
@@ -25,7 +25,7 @@ namespace Application.DTOs.SupabaseDto
         public SupabaseUser User { get; set; }
     }
 
-    public class SupabaseUser
+    public record SupabaseUser
     {
         [JsonPropertyName("id")]
         public string Id { get; set; }

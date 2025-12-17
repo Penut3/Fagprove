@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.UserDto
 {
-    public class UserLoginResultDto
+    public record UserLoginResultDto
     {
         public string SupabaseId { get; set; }
         public string SupabaseToken { get; set; }

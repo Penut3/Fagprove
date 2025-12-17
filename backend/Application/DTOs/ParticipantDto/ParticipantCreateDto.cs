@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.ParticipantDto
 {
-    public class ParticipantCreateDto
+    public record ParticipantCreateDto
     {
         public string Name { get; set; } = null!;
         public string PhoneNumber { get; set; } = null!;

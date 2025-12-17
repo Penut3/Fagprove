@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.UserDto
 {
-    public class UserCreateDto
+    public record UserCreateDto
     {
         public string Email { get; set; } = null!;
         public Guid RoleId { get; set; }

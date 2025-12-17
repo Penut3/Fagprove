@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.CourseAttendanceDto
 {
-    public class CourseAttendanceGetDto
+    public record CourseAttendanceGetDto
     {
         public Guid Id { get; set; }
         public Guid CourseHoursId { get; set; }

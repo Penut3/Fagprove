@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.CourseDto
 {
-    public class CourseCreateDto
+    public record CourseCreateDto
     {
         public string Name { get; set; } = null!;
       

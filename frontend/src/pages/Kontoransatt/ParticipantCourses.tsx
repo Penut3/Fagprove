@@ -74,15 +74,12 @@ const [courses, setCourses] = useState<CourseDto[]>([]);
                 <TableRow key={h.id}>
                     <TableCell>{h.name}</TableCell>
                    <TableCell>
-  {new Intl.DateTimeFormat("nb-NO", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  }).format(new Date(h.joinedAt))}
-</TableCell>
-
-
-
+                    {new Intl.DateTimeFormat("nb-NO", {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                    }).format(new Date(h.joinedAt))}
+                    </TableCell>
                 </TableRow>
                 ))}
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.SupabaseDto
 {
-    public class SupabaseUserDto
+    public record SupabaseUserDto
     {
         [JsonPropertyName("id")]
         public string Id { get; set; }

@@ -73,7 +73,13 @@ export default function CourseHours() {
           <TableBody>
             {courseHours.map((h) => (
               <TableRow key={h.id}>
-                <TableCell>{h.startTime}</TableCell>
+                  <TableCell>
+                    {new Intl.DateTimeFormat("nb-NO", {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                    }).format(new Date(h.startTime))}
+                    </TableCell>
                 <TableCell>{h.durationInMinutes}</TableCell>
                <TableCell>
                 <div style={{ display: "flex", gap: "8px" }}>

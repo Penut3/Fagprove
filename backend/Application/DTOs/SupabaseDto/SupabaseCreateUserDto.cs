@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.SupabaseDto
 {
-    public class SupabaseCreateUserDto
+    public record SupabaseCreateUserDto
     {
         public Guid UserId { get; set; }
         public string Email { get; set; } = null!;
